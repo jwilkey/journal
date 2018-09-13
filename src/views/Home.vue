@@ -1,18 +1,48 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="home pad">
+    <div class="theme-mid pad rounded shadow">
+    <form @submit.prevent="submit">
+      <div id="content" contenteditable="true" class="pad muted-border" autofocus="true"></div>
+      <div class="pad"></div>
+      <button class="hfull">done</button>
+    </form>
+    </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import { formUrl } from '@/config'
 
 export default {
   name: 'home',
-  components: {
-    HelloWorld
+  data () {
+    return {
+      content: undefined
+    }
+  },
+  methods: {
+    getContentElement () {
+      return this.$el.querySelector('#content')
+    },
+    submit () {
+      this.content = this.getContentElement().textContent
+      const words = this.content.split(' ')
+      const people = words.filter(w => w.startsWith('@')).join(',').replace(/@/g, '')
+      const places = words.filter(w => w.startsWith('&')).join(',').replace(/&/g, '')
+      const tags = words.filter(w => w.startsWith('#')).join(',').replace(/#/g, '')
+
+      var formData = new FormData()
+      formData.append('entry.422271319', this.content)
+      formData.append('entry.1871407663', people)
+      formData.append('entry.1996090571', places)
+      formData.append('entry.1319021338', tags)
+
+      const self = this
+      fetch(formUrl, { method: 'POST', body: formData })
+        .then(r => {
+          self.getContentElement().textContent = ''
+        })
+    }
   }
 }
 </script>
