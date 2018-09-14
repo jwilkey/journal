@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.5.0/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.0fb478e7245aa5ec662179d0ae4b0b0c.js"
+  "/precache-manifest.21cf03bee42eda77859f98c414da26e9.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "journal"});
