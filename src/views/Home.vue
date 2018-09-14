@@ -1,17 +1,26 @@
 <template>
-  <div class="home pad">
-    <div class="theme-mid pad rounded shadow">
-    <form @submit.prevent="submit">
-      <div id="content" contenteditable="true" class="pad muted-border" autofocus="true"></div>
-      <div class="pad"></div>
-      <button class="hfull">done</button>
-    </form>
+  <div class="home flex-column vfull">
+    <div class="pad">
+      <button @click="signIn" class="marginr">signin</button>
+      <button @click="$router.push('/entries')" class="">entries</button>
     </div>
+
+<div class="flex-one pad">
+    <div class="theme-mid pad rounded shadow">
+      <form @submit.prevent="submit">
+        <div id="content" contenteditable="true" class="pad muted-border" autofocus="true"></div>
+        <div class="pad"></div>
+        <button class="hfull">done</button>
+      </form>
+
+    </div>
+</div>
   </div>
 </template>
 
 <script>
 import { formUrl } from '@/config'
+import google from '@/js/google'
 
 export default {
   name: 'home',
@@ -26,6 +35,10 @@ export default {
     },
     submit () {
       this.content = this.getContentElement().textContent
+      if (!this.content.trim()) {
+        return
+      }
+
       const words = this.content.split(' ')
       const people = words.filter(w => w.startsWith('@')).join(',').replace(/@/g, '')
       const places = words.filter(w => w.startsWith('&')).join(',').replace(/&/g, '')
@@ -42,6 +55,12 @@ export default {
         .then(r => {
           self.getContentElement().textContent = ''
         })
+        .catch(e => {
+          console.log(e)
+        })
+    },
+    signIn () {
+      google.signIn()
     }
   }
 }
