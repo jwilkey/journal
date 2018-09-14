@@ -6,7 +6,7 @@
 
     <div class="flex-one scrolly">
       <ul class="pad">
-        <li v-for="(row, i) in rows" :key="i" v-if="i !== 0" class="theme-mid shadow entry">
+        <li v-for="(row, i) in rows" :key="i" v-if="i !== rows.length - 1" class="theme-mid shadow entry">
           <p class="muted">{{formattedDate(row[0])}}</p>
           <p>{{row[1]}}</p>
           </li>
