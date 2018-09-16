@@ -1,7 +1,6 @@
 <template>
   <div class="home flex-column vfull">
     <div class="pad">
-      <button @click="signIn" class="marginr">signin</button>
       <button @click="$router.push('/entries')" class="">entries</button>
     </div>
 

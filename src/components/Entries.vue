@@ -1,12 +1,13 @@
 <template>
   <div class="flex-column vfull">
-    <div class="pad">
+    <div class="pad flex-row">
+      <input v-model="search" placeholder="search" class="marginr theme-mid">
       <button @click="$router.push('/')">+</button>
     </div>
 
     <div class="flex-one scrolly">
-      <ul class="pad">
-        <li v-for="(row, i) in rows" :key="i" v-if="i !== rows.length - 1" class="theme-mid shadow entry">
+      <ul class="">
+        <li v-for="(row, i) in filteredRows" :key="i" v-if="i !== rows.length - 1" class="theme-mid shadow entry">
           <p class="muted">{{formattedDate(row[0])}}</p>
           <p>{{row[1]}}</p>
           </li>
@@ -22,7 +23,19 @@ export default {
   name: 'Entries',
   data () {
     return {
-      rows: []
+      rows: [],
+      search: ''
+    }
+  },
+  computed: {
+    filteredRows () {
+      if (this.search) {
+        const q = this.search.toLowerCase()
+        return this.rows
+          .filter(r => JSON.stringify(r).toLowerCase().includes(q))
+      } else {
+        return this.rows
+      }
     }
   },
   methods: {
@@ -49,6 +62,5 @@ export default {
 .entry {
   .marginb;
   .pad;
-  .rounded;
 }
 </style>
